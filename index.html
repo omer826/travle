@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="styleSheet" href="css/style.css">
+    <link href="vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+
+    <title>TravelTip</title>
+</head>
+
+<body>
+    <header class="space-between">
+        <div class="flex align-center">
+            <div class="logo"></div>
+            <h1>travletip</h1>
+        </div>
+        <div class="search-control flex align-center">
+            <div class="flex">
+                <input class="search-input" autofocus type="search" placeholder="Enter location">
+                <button class="btn btn-search fa fa-search"></button>
+            </div>
+
+            <button class="btn my-loc fa fa-map-marker"></button>
+        </div>
+
+    </header>
+    <section class="data-container flex space-between">
+        <div class="location-data flex align-center">
+            <h1>location:</h1>
+            <p></p>
+        </div>
+        <div>
+            <button class="btn btn-weather fa">
+                open weather
+                <img class="popup-arrow hide" src="img/arrowPopUp.png">
+            </button>
+            
+            <button class="btn btn-copy fa fa-copy">
+                copy location
+            </button>
+        </div>
+    </section>
+<div class="copy-txt hide">
+        <input type="text"  id="myInput">
+</div>
+
+    <main class="flex">
+        <aside class="weather  align-center">
+            <img class="weahter-load load-ann" src="img/earth.png" alt="loading">
+            <h1>weather today</h1>
+            <img class="weather-icon">
+            <p class="weahter-status"></p>
+            <p class="weahter-address"></p>
+            <p class="weahter-data"></p>
+        </aside>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+
+
+    </main>
+    <script type="module" src="js/main.js"></script>
+
+
+</body>
+
+</html>

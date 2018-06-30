@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Geolocation</title>
+    <script>
+        function getPosition() {
+            if (!navigator.geolocation) {
+                alert("HTML5 Geolocation is not supported in your browser.");
+                return;
+            }
+
+            // One shot position getting or continus watch
+            navigator.geolocation.getCurrentPosition(showLocation, handleLocationError);
+            // navigator.geolocation.watchPosition(showLocation, handleLocationError);
+        }
+
+        function showLocation(position) {
+            console.log(position);
+            document.getElementById("latitude").innerHTML = position.coords.latitude;
+            document.getElementById("longitude").innerHTML = position.coords.longitude;
+            document.getElementById("accuracy").innerHTML = position.coords.accuracy;
+
+            var date = new Date(position.timestamp);
+            document.getElementById("timestamp").innerHTML = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            initMap(position.coords.latitude, position.coords.longitude);
+        }
+
+        function handleLocationError(error) {
+            var locationError = document.getElementById("locationError");
+
+            switch (error.code) {
+                case 0:
+                    locationError.innerHTML = "There was an error while retrieving your location: " + error.message;
+                    break;
+                case 1:
+                    locationError.innerHTML = "The user didn't allow this page to retrieve a location.";
+                    break;
+                case 2:
+                    locationError.innerHTML = "The browser was unable to determine your location: " + error.message;
+                    break;
+                case 3:
+                    locationError.innerHTML = "The browser timed out before retrieving the location.";
+                    break;
+            }
+        }
+
+        function initMap(lat, lng) {
+            //            if (!lat) lat = 32.0749831;
+            //            if (!lng) lat = 34.9120554;
+
+            var map = new google.maps.Map(
+                document.getElementById('map'), 
+                {
+                    center: { lat: lat, lng: lng },
+                    zoom: 21
+                }
+            );
+
+            // var marker = new google.maps.Marker({
+            //     position: { lat: lat, lng: lng },
+            //     map: map,
+            //     title: 'Hello World!'
+            // });
+        }
+    </script>
+</head>
+
+<body onload="getPosition()">
+    <div id="map" style="width:100%;height:500px;"></div>
+    <h2>Current Position:</h2>
+    <table border="1">
+        <tr>
+            <td>Latitude</td>
+            <td id="latitude"></td>
+        </tr>
+        <tr>
+            <td>Longitude</td>
+            <td id="longitude"></td>
+        </tr>
+        <tr>
+            <td>Accuracy</td>
+            <td id="accuracy"></td>
+        </tr>
+        <tr>
+            <td>Timestamp</td>
+            <td id="timestamp"></td>
+        </tr>
+    </table>
+
+    <p id="locationError"></p>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaQVlcIeYewnFSmm3xkL2d3HHy9xhYbz4&callback=mapReady">
+
+    </script>
+
+    <script>
+
+        function mapReady() {
+            console.log('Map is ready');
+        }
+    </script>
+
+</body>
+
+</html>
