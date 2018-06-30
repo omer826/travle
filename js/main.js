@@ -137,8 +137,12 @@ function onKeyDown(ev) {
     }
 }
 
-function copyLink(...params) {
-
+function copyLink() {
+    document.querySelector('.copy-container').classList.toggle('hide');
+    setTimeout(()=>{
+        document.querySelector('.copy-txt-container').classList.toggle('show-opacity');
+    },50)
+    
     mapService.getCoordForDisplay()
         .then(data => {
             console.log('test', data)
@@ -151,8 +155,7 @@ function copyLink(...params) {
 }
 
 function displayLink(data, isMyPos) {
-    document.querySelector('.copy-container').classList.toggle('hide');
-    document.querySelector('.copy-txt-container').classList.toggle('show-opacity');
+  
     var copyText = document.getElementById("copyInput");
 
     if (data) {
@@ -182,11 +185,9 @@ function copy() {
 
     } catch (eror) {
         console.log(eror);
-        setTimeout(() => {
             document.querySelector('.copy-txt button').classList.remove('fa-copy')
             document.querySelector('.copy-txt button').classList.add('fa-exclamation-circle')
 
-        }, 1000)
     }
 
 }
