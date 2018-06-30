@@ -138,16 +138,10 @@ function copyLink() {
     .then(data =>{
         console.log('test',data)
         var tes = `https://maps.google.com/?ll=${data.lat},${data.lng}`
-
+        copy(tes) 
         console.log('url',tes)
+        
 
-        var copyText = document.getElementById("myInput");
-        document.querySelector('.copy-txt').classList.toggle('hide');
-        copyText.value = tes;
-        copyText.select();
-        document.execCommand("copy");
-      
-        copyLink(tes)
     }) .catch(err=> {
         console.log('url not copies')
     })
@@ -155,6 +149,15 @@ function copyLink() {
     
 }
 
+function copy(txt) {
+
+    var copyText = document.getElementById("myInput");
+    document.querySelector('.copy-txt').classList.toggle('hide');
+    copyText.value = txt;
+    copyText.select();
+    document.execCommand("copy");
+  
+}
 
 
 
