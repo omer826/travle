@@ -36,15 +36,20 @@
                 open weather
                 <img class="popup-arrow hide" src="img/arrowPopUp.png">
             </button>
-            
             <button class="btn btn-copy fa fa-copy">
                 copy location
             </button>
         </div>
     </section>
-<div class="copy-txt hide">
-        <input type="text"  id="myInput">
-</div>
+    <div class="copy-container hide flex">
+        <div class="copy-txt-container  flex-col">
+            <button class="btn btn-exit fa fa-close"></button>
+            <div class="copy-txt flex">
+                <input type="text" id="copyInput">
+                <button class="btn fa fa-copy"></button>
+            </div>
+        </div>
+    </div>
 
     <main class="flex">
         <aside class="weather  align-center">

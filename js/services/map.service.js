@@ -55,7 +55,7 @@ function _connectGoogleApi() {
     return new Promise((resolve, reject) => {
         elGoogleApi.onload = resolve;
         elGoogleApi.onerror = () => reject('Google script failed to load')
-        // elGoogleApi.onerror = reject.bind(null,'Google script failed to load')
+
     })
 }
 
@@ -88,7 +88,6 @@ function getCoord(...params) {
                         lat: lat,
                         lng: lng
                     }
-                    // return getCoordForDisplay()
                 })
         }).catch(err => {
             console.log('eror in address', err)
@@ -125,11 +124,10 @@ function renderAddress(str) {
     google.maps.event.addListener(marker, 'mouseover', function () {
         marker.setTitle(str);
     });
-  
-    marker.addListener('click', function() {
+
+    marker.addListener('click', function () {
         map.setZoom(18);
-        // map.setCenter(marker.getPosition());
-      });
+    });
 
 }
 

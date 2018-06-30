@@ -4,7 +4,8 @@ import locService from './services/loc.service.js'
 import mapService from './services/map.service.js'
 import weatherService from './services/weather-service.js'
 
-
+var linkCopyStr;
+var mypos;
 locService.getLocs()
 
     .then(locs => console.log('locs', locs))
@@ -19,6 +20,8 @@ window.onload = () => {
                 document.querySelector('.search-input').addEventListener('keydown', onKeyDown)
                 document.querySelector('.btn-weather').addEventListener('click', openWeather)
                 document.querySelector('.btn-copy').addEventListener('click', copyLink)
+                document.querySelector('.copy-txt button').addEventListener('click', copy)
+                document.querySelector('.btn-exit').addEventListener('click', closeCopy)
                 getMyPos()
             }
         ).catch(console.warn);
@@ -38,6 +41,10 @@ function getMyPos() {
                     mapService.getAddress(coordLat, coordLng)
                     cleanWeather()
                     addLoad()
+                    mypos = {
+                        lat: coords.latitude,
+                        lng: coords.longitude
+                    }
                     weatherService.getWeather(coordLat, coordLng)
                         .then(res => {
                             res = JSON.parse(res)
@@ -63,8 +70,6 @@ function onSearch() {
         mapService.getCoordForDisplay()
             .then(data => {
                 var { lat, lng } = data
-                console.log(lat, lng, 'data to wheter')
-
                 cleanWeather()
                 addLoad()
                 weatherService.getWeather(lat, lng)
@@ -74,14 +79,13 @@ function onSearch() {
                     })
 
             }).catch(err => {
-                console.log('promise faild')
                 renderWeahter(false)
                 renderFaildLoc()
             })
     }
 }
 
-function openWeather(){
+function openWeather() {
     document.querySelector('.weather').classList.toggle('show-weather');
     this.classList.toggle('fa-times');
     document.querySelector('.popup-arrow').classList.toggle('hide')
@@ -133,31 +137,65 @@ function onKeyDown(ev) {
     }
 }
 
-function copyLink() {
+function copyLink(...params) {
+
     mapService.getCoordForDisplay()
-    .then(data =>{
-        console.log('test',data)
-        var tes = `https://maps.google.com/?ll=${data.lat},${data.lng}`
-        copy(tes) 
-        console.log('url',tes)
-        
+        .then(data => {
+            console.log('test', data)
+            displayLink(data)
 
-    }) .catch(err=> {
-        console.log('url not copies')
-    })
-
-    
+        }).catch(err => {
+            console.log('url not copies')
+            displayLink(mypos, true)
+        })
 }
 
-function copy(txt) {
+function displayLink(data, isMyPos) {
+    document.querySelector('.copy-container').classList.toggle('hide');
+    document.querySelector('.copy-txt-container').classList.toggle('show-opacity');
+    var copyText = document.getElementById("copyInput");
 
-    var copyText = document.getElementById("myInput");
-    document.querySelector('.copy-txt').classList.toggle('hide');
-    copyText.value = txt;
-    copyText.select();
-    document.execCommand("copy");
-  
+    if (data) {
+       
+        let lat = data.lat
+        let lng = data.lng
+
+        linkCopyStr = `https://maps.google.com/?ll=${lat},${lng}`
+        console.log('url', linkCopyStr)
+    } else {
+        linkCopyStr = 'No link to copy'
+    }
+    copyText.value = linkCopyStr;
+
+
 }
 
 
+function copy() {
+    var copyText = document.getElementById("copyInput");
+    document.querySelector('.copy-txt button').classList.add('fa-copy')
+    document.querySelector('.copy-txt button').classList.remove('fa-exclamation-circle')
 
+    try {
+        copyText.select();
+        document.execCommand("copy");
+
+    } catch (eror) {
+        console.log(eror);
+        setTimeout(() => {
+            document.querySelector('.copy-txt button').classList.remove('fa-copy')
+            document.querySelector('.copy-txt button').classList.add('fa-exclamation-circle')
+
+        }, 1000)
+    }
+
+}
+
+function closeCopy() {
+    document.querySelector('.copy-txt-container').classList.toggle('show-opacity');
+    setTimeout(() => {
+        document.querySelector('.copy-container').classList.toggle('hide');
+        document.getElementById("copyInput").value = '';
+    }, 800)
+
+}

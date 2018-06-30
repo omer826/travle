@@ -38,6 +38,11 @@ list-style-type: none;
 .hide {
     display: none;
 }
+
+input {
+    padding: 5px;
+
+}
 /* -------------------------- */
 
 /* header */
@@ -68,7 +73,6 @@ header h1 {
 }
 .search-input {
     height: 40px;
-    padding: 5px;
     border:1px solid transparent;
     background-color: #dedede;
     color: rgb(25, 77, 48);
@@ -138,6 +142,32 @@ left: 40%;
 
 
 /* text */
+.copy-container {
+    padding: 0 10px;
+}
+.copy-txt-container {
+    justify-content: flex-end;
+    padding: 5px 10px;
+    box-shadow: 0 0 9px black;
+    position: absolute;
+    z-index: 1;
+    background: white;
+    opacity: 0;
+    transition: all 1s;
+}
+.show-opacity{
+    opacity: 1;
+    }
+.btn-exit {
+    border-radius: 100%;
+    align-self: flex-end;
+    width: 30px;
+    height: 30px;
+    min-width: 0;
+    margin: 0 0 5px;
+    min-height: 0;
+    outline: none;
+}
 .data-container {
     padding: 10px;
     flex-direction: column;
@@ -201,6 +231,29 @@ color: rgb(25, 77, 48);
     text-transform: capitalize;
 }
 
+
+@media(max-width:300px) {
+    .search-input {
+        width: 100%;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    }
+    header h1 {
+     font-size: 20px;
+    }
+    .btn-weather {
+        margin: 0 0 10px;
+    }
+    .copy-txt input {
+        width: 100%;
+        text-overflow: ellipsis;
+    }
+    .show-weather {
+        width: 90%;
+        min-width: 0;
+    }
+}
+
 @media (min-width:260) {
   
     .weather p {
@@ -222,6 +275,7 @@ color: rgb(25, 77, 48);
     }
     .location-data  {
         margin:0;
+       width: 50%;
     }
     main aside { 
         position: relative;
@@ -230,6 +284,9 @@ color: rgb(25, 77, 48);
     .show-weather {
         left: auto;
         right: 0;
+    }
+    .copy-container {
+        justify-content: flex-end;
     }
 
 }
