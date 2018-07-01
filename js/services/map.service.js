@@ -74,12 +74,14 @@ function getCoord(...params) {
 
         prmJson.then(data => {
             console.log('addres', data);
-            var formatedAdd = data.results[0].formatted_address
-            var dataCoord = data.results[0].geometry.location
-            var lat = dataCoord.lat
-            var lng = dataCoord.lng;
-
-            findCenter(lat, lng)
+            if(data.status === 'ZERO_RESULTS') {
+                renderAddress(false)
+            } else {
+                var formatedAdd = data.results[0].formatted_address
+                var dataCoord = data.results[0].geometry.location
+                var lat = dataCoord.lat
+                var lng = dataCoord.lng;
+                findCenter(lat, lng)
                 .then(() => {
                     addMarker({ lat: lat, lng: lng })
                     getAddress(lat, lng)
@@ -89,6 +91,8 @@ function getCoord(...params) {
                         lng: lng
                     }
                 })
+            }
+       
         }).catch(err => {
             console.log('eror in address', err)
 
@@ -108,6 +112,10 @@ function getAddress(lat, lng) {
         prmJson.then(function (data) {
             console.log('addres', data);
             let formatedAdd = data.results[0].formatted_address
+            objCoord = {
+                lat: lat,
+                lng: lng
+            }
             renderAddress(formatedAdd)
         }).catch(err => {
             console.log('eror', err)
@@ -120,6 +128,8 @@ function getAddress(lat, lng) {
 function renderAddress(str) {
     let elP = document.querySelector('.location-data p');
     if (!str) str = "We didnt find your search"
+    document.querySelector('.search-input').value = '';
+    document.querySelector('.search-input').placeholder = str;
     elP.innerText = str;
     google.maps.event.addListener(marker, 'mouseover', function () {
         marker.setTitle(str);
