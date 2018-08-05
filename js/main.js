@@ -39,6 +39,7 @@ function getMyPos() {
                 .then(() => {
                     mapService.addMarker({ lat: coordLat, lng: coordLng })
                     mapService.getAddress(coordLat, coordLng)
+                   
                     cleanWeather()
                     addLoad()
                     mypos = {
@@ -141,7 +142,7 @@ function copyLink() {
     document.querySelector('.copy-container').classList.toggle('hide');
     setTimeout(()=>{
         document.querySelector('.copy-txt-container').classList.toggle('show-opacity');
-    },50)
+    },10)
     
     mapService.getCoordForDisplay()
         .then(data => {
